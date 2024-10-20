@@ -1,8 +1,6 @@
 const ProfileKYCPage = () => {
   return (
-    <div>
-      <div>KYC</div>
-    </div>
+    <div>KYC</div>
   );
 };
 
