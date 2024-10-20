@@ -20,7 +20,7 @@ const NavItem: React.FC<Props> = ({ nav }) => {
           ? nav.href === pathname
           : pathname.startsWith(nav.href)
       }
-      className="flex text-white p-4 rounded-md items-center data-[active=true]:bg-primary gap-2 transition-all hover:bg-primary/60 font-medium"
+      className="flex text-white p-4 rounded-lg items-center data-[active=true]:bg-primary gap-2 transition-all hover:bg-primary/60 font-medium"
     >
       {nav.icon && <span>{nav.icon}</span>}
       <span>{nav.title}</span>
