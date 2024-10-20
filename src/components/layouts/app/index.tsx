@@ -9,7 +9,11 @@ const AppLayout: React.FC<Props> = ({ children }) => {
   return (
     <div className="flex h-screen w-screen bg-[#F8F8F8] overflow-hidden">
       <AppSidebar />
-      <ScrollArea className="h-[calc(100vh-1vh)] p-4">{children}</ScrollArea>
+      <ScrollArea className="h-[calc(100vh-1vh)]">
+        <div className="h-screen w-screen p-4 md:w-[calc(100vw-280px)]">
+          {children}
+        </div>
+      </ScrollArea>
     </div>
   );
 };

@@ -1,6 +1,8 @@
 const ProfileKYCPage = () => {
   return (
-    <div>KYC</div>
+    <div className="w-full">
+      <div>KYC</div>
+    </div>
   );
 };
 
