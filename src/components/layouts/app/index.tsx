@@ -7,11 +7,9 @@ interface Props {
 
 const AppLayout: React.FC<Props> = ({ children }) => {
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
+    <div className="flex h-screen w-screen bg-[#F8F8F8] overflow-hidden">
       <AppSidebar />
-      <ScrollArea className="h-[calc(100vh-1vh)]">
-        <div className="min-w-full min-h-full bg-[#F8F8F8]">{children}</div>
-      </ScrollArea>
+      <ScrollArea className="h-[calc(100vh-1vh)] p-4">{children}</ScrollArea>
     </div>
   );
 };
