@@ -18,7 +18,7 @@ const CountCard: React.FC<CountCardProps> = ({
   const isIncrease = percentageChange > 30;
 
   return (
-    <div className="w-full bg-white shadow-lg border border-white p-4 rounded-md flex items-center justify-between">
+    <div className="w-full bg-white shadow-lg border border-white p-4 rounded-lg flex items-center justify-between">
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div>

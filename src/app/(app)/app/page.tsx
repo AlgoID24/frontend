@@ -1,5 +1,5 @@
 import { Header } from "@/components/typography/Header";
-import { MdOutlineSavings } from "react-icons/md";
+import { MdOutlineSavings , MdOutlineFormatIndentIncrease} from "react-icons/md";
 import { RiPassPendingLine } from "react-icons/ri";
 import { FaMoneyBillWaveAlt } from "react-icons/fa";
 import CountCard from "@/components/card/countcard";
@@ -7,11 +7,14 @@ import SectionCard from "@/components/card/sectioncard";
 import BarChart from "@/components/charts/barchart";
 import { TableComponent } from "@/components/table/table";
 import { Button } from "@/components/select/select";
-import { IoSettingsOutline } from "react-icons/io5";
+import { IoSettingsOutline,  IoDocumentTextSharp } from "react-icons/io5";
+import { SiCashapp } from "react-icons/si";
+import { FaCoins } from "react-icons/fa6";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import Link from "next/link";
 import { AvatarDemo } from "@/components/avatar/avatar";
 import { RadicalChart } from "@/components/charts/radicalchart";
+import SavingsCard from "@/components/card/savingscard";
 
 const data = [
   {
@@ -109,7 +112,7 @@ const AppDashboard = () => {
             <div
               className="grid grid-flow-row
 					grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
-            gap-10 p-8"
+            gap-6 p-8"
             >
               <CountCard
                 count={100000}
@@ -162,7 +165,7 @@ const AppDashboard = () => {
               />
             </div>
           </div>
-          <div className='pt-6'>
+          <div className="pt-6">
             <div className="pt-10 shadow-lg p-8 rounded-md">
               <div className="flex justify-between items-center">
                 <div>
@@ -178,7 +181,53 @@ const AppDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex-1 pt-6">
+        <div className="flex-1 pt-6 space-y-4 rounded-lg">
+          <div className="">
+            <SectionCard
+              header={
+                <div>
+                  <div className="grid grid-cols-2 gap-4 pt-6">
+                    <div className="flex items-center">
+                      <Header header={"Savings Plan"} />
+                    </div>
+                    <div className="flex justify-end">
+                      <Button />
+                    </div>
+                  </div>
+                </div>
+              }
+              content={
+                <div>
+                  <div>
+                    <SavingsCard
+                      count={34.6}
+                      text="Mutual Funds"
+                      IconComponent={FaCoins}
+                      income={58}
+                    />
+                    <SavingsCard
+                      count={56.9}
+                      text="Investment in"
+                      IconComponent={IoDocumentTextSharp}
+                      income={58}
+                    />
+                    <SavingsCard
+                      count={14.6}
+                      text="Earnings in"
+                      IconComponent={SiCashapp}
+                      income={58}
+                    />
+                    <SavingsCard
+                      count={32.8}
+                      text="Increment "
+                      IconComponent={MdOutlineFormatIndentIncrease}
+                      income={58}
+                    />
+                  </div>
+                </div>
+              }
+            />
+          </div>
           <div className="">
             <RadicalChart />
           </div>
