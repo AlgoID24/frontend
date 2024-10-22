@@ -15,17 +15,17 @@ export default function Component({
         {steps.map((step, index) => (
           <div
             key={index}
-            className="flex flex-1 last:items-end group first:items-start flex-col items-center"
+            className="flex flex-1 first:flex-[2] last:items-end group first:items-start flex-col"
           >
             <div
               className={cn(
-                "text-sm font-medium mb-2 group-first:-translate-x-3.5 group-last:translate-x-3.5 transition-all",
+                "text-sm font-medium mb-2 -translate-x-3.5 group-last:translate-x-3.5 transition-all",
                 index + 1 <= currentStep && "text-blue-500",
               )}
             >
               {step}
             </div>
-            <div className="relative overflow-hidden z-0 flex flex-col group-first:items-start items-center group-last:items-end w-full">
+            <div className="relative overflow-hidden z-0 flex flex-col group-first:items-start group-last:items-end w-full">
               <div
                 className={cn(
                   "w-4 h-4 rounded-full z-50 transition-all",
