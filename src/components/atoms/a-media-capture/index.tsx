@@ -4,7 +4,7 @@ import React from "react";
 import OouiCamera from "~icons/ooui/camera.jsx";
 import IcRoundClose from "~icons/ic/round-close.jsx";
 import { Button } from "@/components/ui/button";
-import faceapi from "face-api.js";
+import * as faceapi from "face-api.js";
 
 const MediaCapture = () => {
   const mediaStream = React.useRef<MediaStream>();
@@ -23,7 +23,9 @@ const MediaCapture = () => {
           .then((stream) => {
             mediaStream.current = stream;
             if (videoRef.current) {
-              videoRef.current.srcObject = mediaStream.current;
+              videoRef.current.src =
+                "https://videos.pexels.com/video-files/3249935/3249935-uhd_2560_1440_25fps.mp4";
+              //videoRef.current.srcObject = mediaStream.current;
             }
           })
           .catch((reason) => {
@@ -34,13 +36,14 @@ const MediaCapture = () => {
   }, []);
 
   const capture = React.useCallback(async () => {
+    console.log(faceapi);
     if (videoRef.current) {
       const detection = await faceapi
         .detectSingleFace(videoRef.current)
         .withFaceLandmarks()
         .withAgeAndGender();
 
-      console.log(detection);
+      console.log(detection?.detection);
     }
   }, []);
 
