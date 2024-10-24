@@ -46,17 +46,91 @@ export default function ProfilePage() {
 
       <section className="mt-7">
         <h2 className="text-[1.5rem] font-medium">My Profile</h2>
-        <article className="w-full border border-dark-grey flex p-5 justify-between items-start">
+        <article className="w-full border border-dark-grey flex p-5 justify-between items-start rounded-lg mt-3">
           <div className="flex items-center gap-5">
-              <div className="w-[4.3rem] h-[4.3rem] rounded-full bg-red-950 top-[-.1rem] right-[.2rem]">
-                <Image alt="profile-icon" src="/dgrovv.jpg" width={100} height={100} className="rounded-full" />
-              </div>
-              <div>
-                <h3>Jack Adams</h3>
-                <p>Product Designer</p>
-                <p>Los Angeles, California, USA</p>
-              </div>
+            <div className="w-[4.3rem] h-[4.3rem] rounded-full bg-red-950 top-[-.1rem] right-[.2rem]">
+              <Image
+                alt="profile-icon"
+                src="/dgrovv.jpg"
+                width={100}
+                height={100}
+                className="rounded-full"
+              />
+            </div>
+            <div>
+              <h3>Jack Adams</h3>
+              <p>Product Designer</p>
+              <p>Los Angeles, California, USA</p>
+            </div>
           </div>
+          <ProfileButton />
+        </article>
+      </section>
+
+      <section>
+        <article className="w-full border border-dark-grey flex p-5 justify-between items-start rounded-lg mt-3">
+          <article className=" border-blue-900 w-[45%]">
+            <h2 className="text-[1.5rem] font-medium">Personal Information</h2>
+            <article className="flex border-red-900 justify-between mt-3">
+              <div className="flex flex-col gap-5">
+                <article>
+                  <h4>First Name</h4>
+                  <p>Jack</p>
+                </article>
+                <article>
+                  <h4>Email Address</h4>
+                  <p>jackadams@gmail.com</p>
+                </article>
+                <article>
+                  <h4>Bio</h4>
+                  <p>Product Designer</p>
+                </article>
+              </div>
+
+              <div className="flex flex-col gap-5">
+                <article>
+                  <h4>Last Name</h4>
+                  <p>Adams</p>
+                </article>
+                <article>
+                  <h4>Phone</h4>
+                  <p>(213) 555-1234</p>
+                </article>
+              </div>
+            </article>
+          </article>
+          <ProfileButton />
+        </article>
+      </section>
+
+      <section>
+        <article className="w-full border border-dark-grey flex p-5 justify-between items-start rounded-lg mt-3">
+          <article className=" border-blue-900 w-[45%]">
+            <h2 className="text-[1.5rem] font-medium">Address</h2>
+            <article className="flex border-red-900 justify-between mt-3">
+              <div className="flex flex-col gap-5">
+                <article>
+                  <h4>Country</h4>
+                  <p>United States of America</p>
+                </article>
+                <article>
+                  <h4>Postal Code</h4>
+                  <p>ERT 62574</p>
+                </article>
+              </div>
+
+              <div className="flex flex-col gap-5">
+                <article>
+                  <h4>City/State</h4>
+                  <p>California, USA</p>
+                </article>
+                <article>
+                  <h4>TAX ID</h4>
+                  <p>AS3452352343523</p>
+                </article>
+              </div>
+            </article>
+          </article>
           <ProfileButton />
         </article>
       </section>
