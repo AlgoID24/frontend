@@ -5,10 +5,13 @@ import OouiCamera from "~icons/ooui/camera.jsx";
 import IcRoundClose from "~icons/ic/round-close.jsx";
 import { Button } from "@/components/ui/button";
 import * as faceapi from "face-api.js";
+import Image from "next/image";
 
 const MediaCapture = () => {
   const mediaStream = React.useRef<MediaStream>();
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [capturedImageURL, setCapturedImageURL] = React.useState<string>();
+  const [modelsLoaded, setModelsLoaded] = React.useState(false);
 
   React.useEffect(() => {
     (async () => {
@@ -23,9 +26,9 @@ const MediaCapture = () => {
           .then((stream) => {
             mediaStream.current = stream;
             if (videoRef.current) {
-              videoRef.current.src =
-                "https://videos.pexels.com/video-files/3249935/3249935-uhd_2560_1440_25fps.mp4";
-              //videoRef.current.srcObject = mediaStream.current;
+              //videoRef.current.src =
+              //  "https://videos.pexels.com/video-files/3249935/3249935-uhd_2560_1440_25fps.mp4";
+              videoRef.current.srcObject = mediaStream.current;
             }
           })
           .catch((reason) => {
@@ -35,27 +38,78 @@ const MediaCapture = () => {
     })();
   }, []);
 
-  const capture = React.useCallback(async () => {
-    console.log(faceapi);
-    if (videoRef.current) {
-      const detection = await faceapi
-        .detectSingleFace(videoRef.current)
-        .withFaceLandmarks()
-        .withAgeAndGender();
+  React.useEffect(() => {
+    async function loadModels() {
+      try {
+        // Replace '/models' with the path where your models are stored
+        await faceapi.nets.ssdMobilenetv1.loadFromUri("/models");
+        await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
+        await faceapi.nets.ageGenderNet.loadFromUri("/models");
+        await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
 
-      console.log(detection?.detection);
+        setModelsLoaded(true);
+        console.log("Models loaded");
+      } catch (error) {
+        console.error("Error loading models:", error);
+      }
     }
+
+    loadModels();
   }, []);
+
+  const capture = React.useCallback(async () => {
+    if (videoRef.current && modelsLoaded) {
+      const canvas = document.createElement("canvas");
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+        const imageUrl = canvas.toDataURL("image/png");
+        setCapturedImageURL(imageUrl);
+
+        // Face detection
+        try {
+          console.log("Detecting face");
+          const detection = await faceapi
+            .detectSingleFace(videoRef.current)
+            .withFaceLandmarks()
+            .withAgeAndGender()
+            .withFaceDescriptor();
+
+          console.log(JSON.parse(JSON.stringify(detection?.detection)));
+        } catch (err) {
+          console.error("Face detection error:", err);
+        }
+      }
+    }
+  }, [modelsLoaded]);
+
+  const clearCapture = () => {
+    setCapturedImageURL(undefined);
+    videoRef.current?.play();
+  };
 
   return (
     <div className="w-full flex flex-col gap-4 items-center">
-      <video
-        ref={videoRef}
-        muted
-        autoPlay
-        playsInline
-        className="w-full aspect-video bg-black rounded-lg"
-      />
+      <div className="w-full aspect-video overflow-hidden bg-black rounded-lg">
+        <Image
+          width={1920}
+          height={1080}
+          src={capturedImageURL ?? ""}
+          style={{ display: capturedImageURL ? "block" : "none" }}
+          alt="face-capture"
+        />
+        <video
+          ref={videoRef}
+          muted
+          autoPlay
+          playsInline
+          style={{ display: !capturedImageURL ? "block" : "none" }}
+          className="w-full aspect-video"
+        />
+      </div>
       <div className="flex items-center gap-2">
         <Button
           onClick={capture}
@@ -65,7 +119,10 @@ const MediaCapture = () => {
           <OouiCamera />
           <span className="sr-only">Capture</span>
         </Button>
-        <Button className="text-xl p-2 h-14 aspect-square rounded-full">
+        <Button
+          onClick={clearCapture}
+          className="text-xl p-2 h-14 aspect-square rounded-full"
+        >
           <IcRoundClose />
           <span className="sr-only">Clear Capture</span>
         </Button>

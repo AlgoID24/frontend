@@ -1,9 +1,9 @@
 import React from "react";
-import { IconType } from "react-icons/ai";
+import { IconType } from "react-icons";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 
 interface CountCardProps {
-  count: string;
+  count: number;
   text: string;
   IconComponent?: IconType;
   percentageChange: number;
@@ -22,7 +22,9 @@ const CountCard: React.FC<CountCardProps> = ({
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div>
-            <IconComponent className="w-6 h-6 mr-2 text-gray-500" />
+            {IconComponent && (
+              <IconComponent className="w-6 h-6 mr-2 text-gray-500" />
+            )}
           </div>
           <div>
             <p className="text-sm text-primary">{text}</p>

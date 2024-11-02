@@ -25,7 +25,7 @@ export default function Component({
             >
               {step}
             </div>
-            <div className="relative overflow-hidden z-0 flex flex-col group-first:items-start group-last:items-end w-full">
+            <div className="relative  z-0 flex flex-col group-first:items-start group-last:items-end w-full">
               <div
                 className={cn(
                   "w-4 h-4 rounded-full z-50 transition-all",
@@ -35,10 +35,10 @@ export default function Component({
               {index < steps.length && (
                 <div
                   className={cn(
-                    "absolute top-2 w-full h-0.5 group-last:right-0 transition-all",
+                    "absolute top-2 w-[200%] h-0.5 group-last:w-0 group-last:right-0 transition-all",
                     index + 1 < currentStep ? "bg-blue-500" : "bg-gray-300",
                   )}
-                  style={{ width: "calc(100% + 1rem)" }}
+                  // style={{ width: "calc(100% + 1rem)" }}
                 />
               )}
             </div>
