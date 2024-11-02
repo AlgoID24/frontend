@@ -18,7 +18,7 @@ const APP_NAVIGATION: NavType[] = [
   },
   {
     title: "Transfers",
-    href: "/app/transfers",
+    href: "/app/transfer",
     icon: <SolarCardTransferLinear />
   },
   {
