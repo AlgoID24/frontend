@@ -7,7 +7,6 @@ interface Props {
 const Layout: React.FC<Props> = ({ children }) => {
   return (
     <div>
-      Nav Bar
       <div>{children}</div>
     </div>
   );
