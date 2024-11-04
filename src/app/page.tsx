@@ -17,7 +17,7 @@ export default function Home() {
 
       <div className="mt-10">
         <div className="flex items-center justify-center">
-          <p className="">
+          <div className="">
             <h1 className="p-5 text-4xl bg-gradient-to-t from-primary to-purple-100 inline-block text-transparent bg-clip-text">
               Algo-ID: Your Trusted Identity Wallet on Algorand
             </h1>
@@ -35,7 +35,7 @@ export default function Home() {
               <span className="pt-2 text-lg flex items-center justify-center">Start with us today</span>
               <h1 className="p-5 flex items-center justify-center text-5xl bg-gradient-to-b from-primary to-purple-200 inline-block text-transparent bg-clip-text">What will you discover ?</h1>
             </p>
-          </p>
+          </div>
         </div>
         <div className="pt-6 flex items-center justify-center">
           <div className="space-x-4">
