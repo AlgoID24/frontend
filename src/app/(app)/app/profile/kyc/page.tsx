@@ -30,21 +30,6 @@ const ProfileKYCPage = () => {
             <MediaCapture />
           </div>
         )}
-        <div className="flex gap-2 justify-end items-end w-full">
-          <Button
-            type="button"
-            disabled={step === 0}
-            onClick={() => setSearchParams({ step: String(step - 1) })}
-          >
-            Back
-          </Button>
-          <Button
-            type="button"
-            onClick={() => setSearchParams({ step: String(step + 1) })}
-          >
-            Next
-          </Button>
-        </div>
       </div>
     </div>
   );

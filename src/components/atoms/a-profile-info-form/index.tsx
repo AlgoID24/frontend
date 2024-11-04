@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
   firstName: z.string({ message: "Please enter first name" }),
@@ -27,7 +28,7 @@ const ProfileInfoForm = () => {
 
   return (
     <Form {...form}>
-      <form className="w-full">
+      <form className="w-full flex flex-col gap-4">
         <div className="flex flex-col gap-4">
           <div className="grid md:grid-cols-2 gap-4">
             <FormField
@@ -59,7 +60,7 @@ const ProfileInfoForm = () => {
           </div>
           <FormField
             control={form.control}
-            name="lastName"
+            name="bio"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Bio</FormLabel>
@@ -71,6 +72,7 @@ const ProfileInfoForm = () => {
             )}
           />
         </div>
+        <Button className="self-end">Next</Button>
       </form>
     </Form>
   );

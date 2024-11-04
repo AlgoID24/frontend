@@ -4,6 +4,7 @@ import "./globals.css";
 import { TRPCProvider } from "@/services/trpc/provider";
 import URQLProvider from "@/components/providers/urql";
 import { ToastProvider } from "@/components/ui/toast";
+import JotaiProvider from "@/components/providers/jotai";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,9 +26,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable} font-poppins antialiased`}>
         <ToastProvider>
-          <TRPCProvider>
-            <URQLProvider>{children}</URQLProvider>
-          </TRPCProvider>
+          <JotaiProvider>
+            <TRPCProvider>
+              <URQLProvider>{children}</URQLProvider>
+            </TRPCProvider>
+          </JotaiProvider>
         </ToastProvider>
       </body>
     </html>
