@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { TRPCProvider } from "@/services/trpc/provider";
+import URQLProvider from "@/components/providers/urql";
+import { ToastProvider } from "@/components/ui/toast";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,7 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} font-poppins antialiased`}>
-        <TRPCProvider>{children}</TRPCProvider>
+        <ToastProvider>
+          <TRPCProvider>
+            <URQLProvider>{children}</URQLProvider>
+          </TRPCProvider>
+        </ToastProvider>
       </body>
     </html>
   );

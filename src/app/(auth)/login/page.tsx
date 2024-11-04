@@ -17,6 +17,12 @@ import Image from "next/image";
 import { useState } from "react";
 import WeuiEyesOnOutlined from "~icons/weui/eyes-on-outlined";
 import WeuiEyesOffFilled from "~icons/weui/eyes-off-filled";
+import {
+  ResponseStatus,
+  useSignInMutation,
+} from "@/services/graphql/generated";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z
@@ -28,13 +34,16 @@ const formSchema = z.object({
     .min(8, "Password must be at least 8 characters")
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+      "Password must contain at least one uppercase letter, one lowercase letter, and one number",
     ),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [{ fetching }, mutate] = useSignInMutation();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<FormValues>({
@@ -45,13 +54,27 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = (values: FormValues) => {
-    try {
-      console.log(values);
-
-      form.reset();
-    } catch (error) {
-      console.error("Login error:", error);
+  const onSubmit = async (values: FormValues) => {
+    const { data, error } = await mutate({
+      input: {
+        email: values.email,
+        password: values.password,
+      },
+    });
+    if (data?.emailPasswordSignin.status === ResponseStatus.Success) {
+      toast({
+        title: "Welcome Back",
+        description: data.emailPasswordSignin.message,
+      });
+      router.replace("/app/profile/kyc");
+    } else if (error?.graphQLErrors && error.graphQLErrors.length > 0) {
+      error.graphQLErrors.map((error) =>
+        toast({
+          title: "Login Error",
+          description: error.message,
+          variant: "destructive",
+        }),
+      );
     }
   };
 
@@ -117,7 +140,7 @@ export default function LoginPage() {
               )}
             />
 
-            <Button type="submit" className="w-full">
+            <Button loading={fetching} type="submit" className="w-full">
               Login
             </Button>
           </form>
