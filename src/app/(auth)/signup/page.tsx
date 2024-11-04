@@ -23,7 +23,7 @@ import {
 } from "@/services/graphql/generated";
 import { descriptors } from "chart.js/dist/core/core.defaults";
 import { toast } from "@/hooks/use-toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({

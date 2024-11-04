@@ -6,12 +6,14 @@ import IcRoundClose from "~icons/ic/round-close.jsx";
 import { Button } from "@/components/ui/button";
 import * as faceapi from "face-api.js";
 import Image from "next/image";
+import { useAtom } from "jotai";
+import { capturedImageAtom, modelsLoadedAtom } from "@/state/atoms/faceRecog"; 
 
 const MediaCapture = () => {
   const mediaStream = React.useRef<MediaStream>();
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  const [capturedImageURL, setCapturedImageURL] = React.useState<string>();
-  const [modelsLoaded, setModelsLoaded] = React.useState(false);
+  const [capturedImageURL, setCapturedImageURL] = useAtom(capturedImageAtom); 
+  const [modelsLoaded, setModelsLoaded] = useAtom(modelsLoadedAtom); 
 
   React.useEffect(() => {
     (async () => {
@@ -26,8 +28,6 @@ const MediaCapture = () => {
           .then((stream) => {
             mediaStream.current = stream;
             if (videoRef.current) {
-              //videoRef.current.src =
-              //  "https://videos.pexels.com/video-files/3249935/3249935-uhd_2560_1440_25fps.mp4";
               videoRef.current.srcObject = mediaStream.current;
             }
           })
@@ -41,7 +41,6 @@ const MediaCapture = () => {
   React.useEffect(() => {
     async function loadModels() {
       try {
-        // Replace '/models' with the path where your models are stored
         await faceapi.nets.ssdMobilenetv1.loadFromUri("/models");
         await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
         await faceapi.nets.ageGenderNet.loadFromUri("/models");
@@ -55,7 +54,7 @@ const MediaCapture = () => {
     }
 
     loadModels();
-  }, []);
+  }, [setModelsLoaded]);
 
   const capture = React.useCallback(async () => {
     if (videoRef.current && modelsLoaded) {
@@ -67,9 +66,8 @@ const MediaCapture = () => {
       if (ctx) {
         ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
         const imageUrl = canvas.toDataURL("image/png");
-        setCapturedImageURL(imageUrl);
+        setCapturedImageURL(imageUrl); 
 
-        // Face detection
         try {
           console.log("Detecting face");
           const detection = await faceapi
@@ -84,10 +82,10 @@ const MediaCapture = () => {
         }
       }
     }
-  }, [modelsLoaded]);
+  }, [modelsLoaded, setCapturedImageURL]);
 
   const clearCapture = () => {
-    setCapturedImageURL(undefined);
+    setCapturedImageURL(undefined); 
     videoRef.current?.play();
   };
 

@@ -1,4 +1,11 @@
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAtom } from "jotai";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { kycAtom } from "@/state/atoms/kyc";
+import { z } from "zod";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -7,32 +14,36 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
-  firstName: z.string({ message: "Please enter first name" }),
-  lastName: z.string({ message: "Please enter last name" }),
-  nin: z.string({ message: "Please enter your NIN" }),
+  firstName: z.string().min(1, "Please enter first name"),
+  lastName: z.string().min(1, "Please enter last name"),
+  nin: z.string().min(1, "Please enter your NIN"),
 });
 
 export type FormSchema = z.infer<typeof formSchema>;
 
-const ProfileInfoForm = () => {
+interface ProfileInfoFormProps {
+  onNextStep: () => void; 
+}
+
+const ProfileInfoForm: React.FC<ProfileInfoFormProps> = ({ onNextStep }) => {
+  const [, setKycData] = useAtom(kycAtom);
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (value: FormSchema) => {
-    // setValue(c => ({...c, }))
+    setKycData(value); 
+    onNextStep(); 
   };
 
   return (
     <Form {...form}>
-      <form className="w-full flex flex-col gap-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full flex flex-col gap-4"
+      >
         <div className="flex flex-col gap-4">
           <FormField
             control={form.control}
@@ -74,7 +85,19 @@ const ProfileInfoForm = () => {
             )}
           />
         </div>
-        <Button className="self-end">Next</Button>
+        <div className="flex items-center justify-center gap-5">
+          <Button className="mt-4">
+            <Link
+              href="https://nimc.gov.ng/preenrolment-online/"
+              target="_blank"
+            >
+              Register NIN
+            </Link>
+          </Button>
+          <Button type="submit" className="mt-4">
+            Next
+          </Button>
+        </div>
       </form>
     </Form>
   );

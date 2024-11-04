@@ -1,8 +1,7 @@
-import { FormSchema } from "@/components/atoms/a-profile-info-form";
 import { atom } from "jotai";
+import { FormSchema } from "@/components/atoms/a-profile-info-form";
 
 interface KYCData extends FormSchema {}
 
-const kycAtom = atom<KYCData | undefined>(undefined);
-
-export default kycAtom;
+export const kycAtom = atom<KYCData | undefined>(undefined);
+export const stepAtom = atom(0); // Initial step set to 0

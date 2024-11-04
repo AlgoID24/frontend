@@ -12,7 +12,9 @@ export default function Home() {
           width={100}
           height={100}
         ></Image>
-        <Button className="">Login / Signup</Button>
+        <Button className="">
+          <Link href='/app'>Get Started</Link>
+        </Button>
       </nav>
 
       <div className="mt-10">
