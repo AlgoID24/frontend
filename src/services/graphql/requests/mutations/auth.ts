@@ -16,3 +16,19 @@ export const SIGN_IN = gql`
     }
   }
 `;
+
+export const SIGN_UP = gql`
+  mutation SignUp(
+    $input: EmailPasswordSignUpInput = {
+      email: ""
+      password1: ""
+      password2: ""
+    }
+  ) {
+    emailPasswordSignup(input: $input) {
+      message
+      status
+      data
+    }
+  }
+`;

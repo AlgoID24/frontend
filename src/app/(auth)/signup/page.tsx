@@ -17,6 +17,13 @@ import Image from "next/image";
 import WeuiEyesOnOutlined from "~icons/weui/eyes-on-outlined";
 import WeuiEyesOffFilled from "~icons/weui/eyes-off-filled";
 import { useState } from "react";
+import {
+  ResponseStatus,
+  useSignUpMutation,
+} from "@/services/graphql/generated";
+import { descriptors } from "chart.js/dist/core/core.defaults";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/router";
 
 const formSchema = z
   .object({
@@ -41,6 +48,8 @@ const formSchema = z
 type FormValues = z.infer<typeof formSchema>;
 
 export default function SignUpPage() {
+  const router = useRouter();
+  const [{ data, fetching, error }, mutate] = useSignUpMutation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -54,10 +63,30 @@ export default function SignUpPage() {
     },
   });
 
-  const onSubmit = (values: FormValues) => {
+  const onSubmit = async (values: FormValues) => {
     try {
-      console.log(values);
-      form.reset();
+      const { data, error } = await mutate({
+        input: {
+          email: values.email,
+          password1: values.password,
+          password2: values.confirmPassword,
+        },
+      });
+      if (data?.emailPasswordSignup.status === ResponseStatus.Success) {
+        toast({
+          title: "Sign up successful",
+          description: data.emailPasswordSignup.message,
+        });
+        router.replace("/app/profile/kyc");
+      } else if (error?.graphQLErrors && error.graphQLErrors.length > 0) {
+        error.graphQLErrors.map((error) =>
+          toast({
+            title: "Sign up error",
+            description: error.message,
+            variant: "destructive",
+          })
+        );
+      }
     } catch (error) {
       console.error("Signup error:", error);
     }

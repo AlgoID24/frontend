@@ -130,6 +130,13 @@ export type SignInMutationVariables = Exact<{
 
 export type SignInMutation = { __typename?: 'Mutation', emailPasswordSignin: { __typename?: 'AuthTokenTypeResponse', message?: string | null, status: ResponseStatus, data: { __typename?: 'AuthTokenType', id: any, token: string, lastUpdated: any, dateAdded: any } } };
 
+export type SignUpMutationVariables = Exact<{
+  input?: InputMaybe<EmailPasswordSignUpInput>;
+}>;
+
+
+export type SignUpMutation = { __typename?: 'Mutation', emailPasswordSignup: { __typename?: 'NoneTypeResponse', message?: string | null, status: ResponseStatus, data?: any | null } };
+
 
 export const SignInDocument = gql`
     mutation SignIn($input: EmailPasswordSignInInput = {email: "", password: ""}) {
@@ -148,4 +155,17 @@ export const SignInDocument = gql`
 
 export function useSignInMutation() {
   return Urql.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument);
+};
+export const SignUpDocument = gql`
+    mutation SignUp($input: EmailPasswordSignUpInput = {email: "", password1: "", password2: ""}) {
+  emailPasswordSignup(input: $input) {
+    message
+    status
+    data
+  }
+}
+    `;
+
+export function useSignUpMutation() {
+  return Urql.useMutation<SignUpMutation, SignUpMutationVariables>(SignUpDocument);
 };
