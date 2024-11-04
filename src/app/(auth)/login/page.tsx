@@ -1,6 +1,7 @@
 "use client";
 
 import { z } from "zod";
+import Link from "next/link"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -79,12 +80,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-[86%] mx-auto">
-      <nav className="py-5">
+    <div className="bg-gradient-to-b from-primary">
+      <nav className="p-10 py-4">
         <Image src="/logo.svg" alt="algo-id logo" width={100} height={100} />
       </nav>
 
-      <section className="p-8 border border-red-500 w-[40%] mx-auto rounded-lg shadow-lg">
+      <section className="p-10 backdrop-blur-[2px] bg-white/30 border shadow-lg md:w-[40%] mx-auto rounded-lg shadow-lg">
         <div>
           <h3 className="text-center text-xl font-semibold">
             Sign in with email
@@ -139,6 +140,7 @@ export default function LoginPage() {
                 </FormItem>
               )}
             />
+            <Link href='/' className='text-black flex justify-end items-end'>Forgot Password?</Link>
 
             <Button loading={fetching} type="submit" className="w-full">
               Login
