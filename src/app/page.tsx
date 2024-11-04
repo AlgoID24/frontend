@@ -31,10 +31,10 @@ export default function Home() {
               </span>
             </p>
             <hr />
-            <p className=''>
+            <div className=''>
               <span className="pt-2 text-lg flex items-center justify-center">Start with us today</span>
               <h1 className="p-5 flex items-center justify-center text-5xl bg-gradient-to-b from-primary to-purple-200 inline-block text-transparent bg-clip-text">What will you discover ?</h1>
-            </p>
+            </div>
           </div>
         </div>
         <div className="pt-6 flex items-center justify-center">
