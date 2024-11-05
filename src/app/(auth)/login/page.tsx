@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import Link from "next/link"
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,7 @@ import {
 } from "@/services/graphql/generated";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { setAuthTokens } from "@/lib/utils/localStorage";
 
 const formSchema = z.object({
   email: z
@@ -67,9 +68,14 @@ export default function LoginPage() {
         title: "Welcome Back",
         description: data.emailPasswordSignin.message,
       });
+      console.log(data);
+      setAuthTokens({
+        token: data.emailPasswordSignin.data.token,
+        refreshToken: data.emailPasswordSignin.data.id,
+      });
       router.replace("/app/profile/kyc");
     } else if (error?.graphQLErrors && error.graphQLErrors.length > 0) {
-      error.graphQLErrors.map((error) =>
+      error.graphQLErrors.forEach((error) =>
         toast({
           title: "Login Error",
           description: error.message,
@@ -85,7 +91,7 @@ export default function LoginPage() {
         <Image src="/logo.svg" alt="algo-id logo" width={100} height={100} />
       </nav>
 
-      <section className="p-10 backdrop-blur-[2px] bg-white/30 border shadow-lg md:w-[40%] mx-auto rounded-lg shadow-lg">
+      <section className="p-10 backdrop-blur-[2px] bg-white/30 border md:w-[40%] mx-auto rounded-lg shadow-lg">
         <div>
           <h3 className="text-center text-xl font-semibold">
             Sign in with email
@@ -140,7 +146,9 @@ export default function LoginPage() {
                 </FormItem>
               )}
             />
-            <Link href='/' className='text-black flex justify-end items-end'>Forgot Password?</Link>
+            <Link href="/" className="text-black flex justify-end items-end">
+              Forgot Password?
+            </Link>
 
             <Button loading={fetching} type="submit" className="w-full">
               Login

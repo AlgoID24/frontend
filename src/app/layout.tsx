@@ -3,8 +3,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { TRPCProvider } from "@/services/trpc/provider";
 import URQLProvider from "@/components/providers/urql";
-import { ToastProvider } from "@/components/ui/toast";
 import JotaiProvider from "@/components/providers/jotai";
+import { Toaster } from "@/components/ui/toaster";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,13 +25,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} font-poppins antialiased`}>
-        <ToastProvider>
-          <JotaiProvider>
-            <TRPCProvider>
-              <URQLProvider>{children}</URQLProvider>
-            </TRPCProvider>
-          </JotaiProvider>
-        </ToastProvider>
+        <JotaiProvider>
+          <TRPCProvider>
+            <URQLProvider>{children}</URQLProvider>
+            <Toaster />
+          </TRPCProvider>
+        </JotaiProvider>
       </body>
     </html>
   );

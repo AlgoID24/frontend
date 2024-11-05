@@ -28,6 +28,7 @@
     "@trpc/client": "^11.0.0-rc.593",
     "@trpc/react-query": "^11.0.0-rc.593",
     "@trpc/server": "^11.0.0-rc.593",
+    "@urql/exchange-auth": "^2.2.0",
     "canvas": "^2.11.2",
     "chart.js": "^4.4.5",
     "class-variance-authority": "^0.7.0",

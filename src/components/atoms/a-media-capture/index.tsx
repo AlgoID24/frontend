@@ -6,14 +6,15 @@ import IcRoundClose from "~icons/ic/round-close.jsx";
 import { Button } from "@/components/ui/button";
 import * as faceapi from "face-api.js";
 import Image from "next/image";
-import { useAtom } from "jotai";
-import { capturedImageAtom, modelsLoadedAtom } from "@/state/atoms/faceRecog"; 
+import { useAtom, useSetAtom } from "jotai";
+import { faceRecognitionAtom, modelsLoadedAtom } from "@/state/atoms/faceRecog";
 
 const MediaCapture = () => {
   const mediaStream = React.useRef<MediaStream>();
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  const [capturedImageURL, setCapturedImageURL] = useAtom(capturedImageAtom); 
-  const [modelsLoaded, setModelsLoaded] = useAtom(modelsLoadedAtom); 
+  const [capturedImageURL, setCapturedImageURL] = React.useState<string>();
+  const setFaceRecog = useSetAtom(faceRecognitionAtom);
+  const [modelsLoaded, setModelsLoaded] = useAtom(modelsLoadedAtom);
 
   React.useEffect(() => {
     (async () => {
@@ -66,7 +67,7 @@ const MediaCapture = () => {
       if (ctx) {
         ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
         const imageUrl = canvas.toDataURL("image/png");
-        setCapturedImageURL(imageUrl); 
+        setCapturedImageURL(imageUrl);
 
         try {
           console.log("Detecting face");
@@ -75,6 +76,10 @@ const MediaCapture = () => {
             .withFaceLandmarks()
             .withAgeAndGender()
             .withFaceDescriptor();
+
+          if (detection?.detection) {
+            setFaceRecog(detection.detection);
+          }
 
           console.log(JSON.parse(JSON.stringify(detection?.detection)));
         } catch (err) {
@@ -85,7 +90,7 @@ const MediaCapture = () => {
   }, [modelsLoaded, setCapturedImageURL]);
 
   const clearCapture = () => {
-    setCapturedImageURL(undefined); 
+    setCapturedImageURL(undefined);
     videoRef.current?.play();
   };
 

@@ -24,7 +24,7 @@ const formSchema = z.object({
 export type FormSchema = z.infer<typeof formSchema>;
 
 interface ProfileInfoFormProps {
-  onNextStep: () => void; 
+  onNextStep: () => void;
 }
 
 const ProfileInfoForm: React.FC<ProfileInfoFormProps> = ({ onNextStep }) => {
@@ -34,8 +34,8 @@ const ProfileInfoForm: React.FC<ProfileInfoFormProps> = ({ onNextStep }) => {
   });
 
   const onSubmit = async (value: FormSchema) => {
-    setKycData(value); 
-    onNextStep(); 
+    setKycData(value);
+    onNextStep();
   };
 
   return (
@@ -86,18 +86,21 @@ const ProfileInfoForm: React.FC<ProfileInfoFormProps> = ({ onNextStep }) => {
           />
         </div>
         <div className="flex items-center justify-center gap-5">
-          <Button className="mt-4">
-            <Link
-              href="https://nimc.gov.ng/preenrolment-online/"
-              target="_blank"
-            >
-              Register NIN
-            </Link>
-          </Button>
           <Button type="submit" className="mt-4">
             Next
           </Button>
         </div>
+        <p className="flex justify-center items-center gap-1 text-center w-full">
+          Don't have your NIN? Click
+          <Link
+            href="https://nimc.gov.ng/preenrolment-online/"
+            className="text-primary"
+            target="_blank"
+          >
+            here
+          </Link>
+          to register
+        </p>
       </form>
     </Form>
   );

@@ -32,3 +32,32 @@ export const SIGN_UP = gql`
     }
   }
 `;
+
+export const UPDATE_PROFILE = gql`
+  mutation UpdateProfile(
+    $input: UserProfileInput = {
+      firstName: ""
+      lastName: ""
+      faceRecognition: ""
+      nin: ""
+    }
+  ) {
+    updateUserProfile(input: $input) {
+      message
+      status
+      data {
+        did
+        profile {
+          dateAdded
+          faceRecognition
+          firstName
+          id
+          lastName
+          lastUpdated
+          nin
+          verified
+        }
+      }
+    }
+  }
+`;

@@ -52,7 +52,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   emailPasswordSignin: AuthTokenTypeResponse;
   emailPasswordSignup: NoneTypeResponse;
-  updateUserProfile: ProfileTypeResponse;
+  updateUserProfile: UpdateProfileResponseResponse;
 };
 
 
@@ -90,13 +90,6 @@ export type ProfileType = {
   verified: Scalars['Boolean']['output'];
 };
 
-export type ProfileTypeResponse = {
-  __typename?: 'ProfileTypeResponse';
-  data: ProfileType;
-  message?: Maybe<Scalars['String']['output']>;
-  status: ResponseStatus;
-};
-
 export type Query = {
   __typename?: 'Query';
   version: Scalars['String']['output'];
@@ -107,12 +100,24 @@ export enum ResponseStatus {
   Success = 'SUCCESS'
 }
 
+export type UpdateProfileResponse = {
+  __typename?: 'UpdateProfileResponse';
+  did: Scalars['JSON']['output'];
+  profile: ProfileType;
+};
+
+export type UpdateProfileResponseResponse = {
+  __typename?: 'UpdateProfileResponseResponse';
+  data: UpdateProfileResponse;
+  message?: Maybe<Scalars['String']['output']>;
+  status: ResponseStatus;
+};
+
 export type UserProfileInput = {
   faceRecognition: Scalars['JSON']['input'];
   firstName: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
   nin: Scalars['String']['input'];
-  userId: Scalars['UUID']['input'];
 };
 
 export type UserType = {
@@ -136,6 +141,13 @@ export type SignUpMutationVariables = Exact<{
 
 
 export type SignUpMutation = { __typename?: 'Mutation', emailPasswordSignup: { __typename?: 'NoneTypeResponse', message?: string | null, status: ResponseStatus, data?: any | null } };
+
+export type UpdateProfileMutationVariables = Exact<{
+  input?: InputMaybe<UserProfileInput>;
+}>;
+
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateUserProfile: { __typename?: 'UpdateProfileResponseResponse', message?: string | null, status: ResponseStatus, data: { __typename?: 'UpdateProfileResponse', did: any, profile: { __typename?: 'ProfileType', dateAdded: any, faceRecognition?: any | null, firstName?: string | null, id: any, lastName?: string | null, lastUpdated: any, nin?: string | null, verified: boolean } } } };
 
 
 export const SignInDocument = gql`
@@ -168,4 +180,29 @@ export const SignUpDocument = gql`
 
 export function useSignUpMutation() {
   return Urql.useMutation<SignUpMutation, SignUpMutationVariables>(SignUpDocument);
+};
+export const UpdateProfileDocument = gql`
+    mutation UpdateProfile($input: UserProfileInput = {firstName: "", lastName: "", faceRecognition: "", nin: ""}) {
+  updateUserProfile(input: $input) {
+    message
+    status
+    data {
+      did
+      profile {
+        dateAdded
+        faceRecognition
+        firstName
+        id
+        lastName
+        lastUpdated
+        nin
+        verified
+      }
+    }
+  }
+}
+    `;
+
+export function useUpdateProfileMutation() {
+  return Urql.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument);
 };
